@@ -16,17 +16,47 @@ if PROJECT_ROOT not in sys.path:
 # -----------------------
 # Utils
 # -----------------------
-from utils_mini import (
-    autenticar_google_sheets,
-    configurar_selenium,
-    iniciar_sesion,
-    abrir_menu_masivos_documentos_digitales,
-    masivo_confirmar_seleccion_final,
-    seleccionar_modelo,
-    masivo_marcar_a_la_firma,
-    estacionar_mouse,
-    seleccionar_modelo_por_texto,
-)
+try:
+    from utils_mini import (
+        autenticar_google_sheets,
+        configurar_selenium,
+        iniciar_sesion,
+        abrir_menu_masivos_documentos_digitales,
+        masivo_confirmar_seleccion_final,
+        seleccionar_modelo,
+        masivo_marcar_a_la_firma,
+        estacionar_mouse,
+        seleccionar_modelo_por_texto,
+    )
+except ImportError:
+    print("📥 utils_mini no encontrado localmente, descargando desde GitHub...")
+    import urllib.request
+    import importlib.util
+    
+    # Descargar utils_mini desde GitHub
+    url = "https://raw.githubusercontent.com/JUZGADO1SECRETARIA2/Lex1000/main/utils_mini.py"
+    response = urllib.request.urlopen(url)
+    utils_code = response.read().decode('utf-8')
+    
+    # Crear módulo temporal
+    spec = importlib.util.spec_from_loader('utils_mini', loader=None)
+    utils_mini = importlib.util.module_from_spec(spec)
+    exec(utils_code, utils_mini.__dict__)
+    sys.modules['utils_mini'] = utils_mini
+    
+    # Re-importar las funciones
+    from utils_mini import (
+        autenticar_google_sheets,
+        configurar_selenium,
+        iniciar_sesion,
+        abrir_menu_masivos_documentos_digitales,
+        masivo_confirmar_seleccion_final,
+        seleccionar_modelo,
+        masivo_marcar_a_la_firma,
+        estacionar_mouse,
+        seleccionar_modelo_por_texto,
+    )
+    print("✅ utils_mini cargado desde GitHub")
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
