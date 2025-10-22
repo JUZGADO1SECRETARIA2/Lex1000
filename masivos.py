@@ -16,7 +16,7 @@ if PROJECT_ROOT not in sys.path:
 # -----------------------
 # Utils
 # -----------------------
-from utils.funciones import (
+from utils_mini import (
     autenticar_google_sheets,
     configurar_selenium,
     iniciar_sesion,
@@ -239,7 +239,7 @@ def ejecutar_opcion(conf: Dict, *, sheet_name: str, sheet_tab: str, fila_inicio:
         masivo_marcar_a_la_firma(driver, wait, marcar=True)
 
         try:
-            from utils.funciones import seleccionar_estado_proyecto
+            from utils_mini import seleccionar_estado_proyecto
             seleccionar_estado_proyecto(driver, wait)
         except Exception:
             pass
